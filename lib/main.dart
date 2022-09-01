@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'task.dart';
 import 'task_list.dart';
@@ -10,6 +8,8 @@ void main() {
 }
 
 class TodoApp extends StatelessWidget {
+  const TodoApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(home: MyHomePage());
@@ -17,6 +17,8 @@ class TodoApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -52,25 +54,26 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('To do List'),
-          backgroundColor: Color.fromARGB(255, 187, 19, 7),
+      appBar: AppBar(
+        title: Text('To do List'),
+        backgroundColor: Color.fromARGB(255, 187, 19, 7),
+      ),
+      body: SizedBox(
+        height: 300,
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (ctx, index) {
+            final tr = _tasks[index];
+            return TaskList(_tasks);
+          },
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TaskList(_tasks),
-            ],
-          ),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () => _openForm(context),
-            backgroundColor: Color.fromARGB(255, 187, 19, 7),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _openForm(context),
+        backgroundColor: Color.fromARGB(255, 187, 19, 7),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }

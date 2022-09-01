@@ -1,17 +1,26 @@
-import 'package:flutter/widgets.dart';
-
 import 'task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class TaskList extends StatelessWidget {
+class TaskList extends StatefulWidget {
   final List<Task> tasks;
 
   const TaskList(this.tasks);
 
+  @override
+  State<TaskList> createState() => _TaskListState();
+}
+
+class _TaskListState extends State<TaskList> {
+  void removeTask(List taskList, Task task) {
+    setState(() {
+      taskList.removeAt(task.id - 1);
+    });
+  }
+
   List<Widget> taskToCard() {
     List<Widget> taskList = [];
-    for (Task task in tasks) {
+
+    for (Task task in widget.tasks) {
       taskList.add(
         Center(
           child: Card(
@@ -24,32 +33,43 @@ class TaskList extends StatelessWidget {
             ),
             child: SizedBox(
               width: 150,
-              height: 50,
+              height: 80,
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "#" + task.id.toString(),
-                        style: TextStyle(color: Colors.grey),
-                        textAlign: TextAlign.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "#" + task.id.toString(),
+                            style: TextStyle(color: Colors.grey),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            "  " + task.name.toUpperCase() + "   ",
+                            style: TextStyle(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            task.hour,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      task.name.toUpperCase(),
-                      style: TextStyle(color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        task.hour,
-                        textAlign: TextAlign.center,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () => removeTask(taskList, task),
+                          child: Text('Done'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 239, 31, 16),
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -57,7 +77,7 @@ class TaskList extends StatelessWidget {
         ),
       );
     }
-    return taskList;
+    return taskList.toList();
   }
 
   @override
