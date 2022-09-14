@@ -18,52 +18,55 @@ class _TaskListState extends State<TaskList> {
     for (Task task in widget.tasks) {
       taskList.add(
         Center(
-          child: Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.grey,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-            ),
-            child: SizedBox(
-              width: 150,
-              height: 80,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "#" + task.id.toString(),
-                            style: TextStyle(color: Colors.grey),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            "  " + task.name.toUpperCase() + "   ",
-                            style: TextStyle(color: Colors.red),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            task.hour,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () => widget.onRemove(task.id),
-                          child: Text('Done'),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
+              child: SizedBox(
+                width: 150,
+                height: 80,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "#" + task.id.toString(),
+                              style: TextStyle(color: Colors.grey),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "  " + task.name.toUpperCase() + "   ",
+                              style: TextStyle(color: Colors.red),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              task.hour,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () => widget.onRemove(task.id),
+                            child: Text('Done'),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.orange,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
