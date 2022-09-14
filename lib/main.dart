@@ -1,10 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'task.dart';
 import 'task_list.dart';
 import 'task_form.dart';
 
 void main() {
-  runApp(TodoApp());
+  runApp(
+    TodoApp(),
+  );
 }
 
 class TodoApp extends StatelessWidget {
@@ -12,7 +16,9 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage());
+    return MaterialApp(
+      home: MyHomePage(),
+    );
   }
 }
 
@@ -24,22 +30,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Task> _tasks = [
-    Task(id: 1, name: "sleep", hour: "19:00"),
-    Task(id: 2, name: "gym", hour: "20:00"),
-    Task(id: 3, name: "eat", hour: "21:00"),
-    Task(id: 4, name: "study", hour: "22:00"),
-    Task(id: 5, name: "sleep", hour: "19:00"),
-    Task(id: 6, name: "gym", hour: "20:00"),
-    Task(id: 7, name: "eat", hour: "21:00"),
-    Task(id: 8, name: "study", hour: "22:00"),
-  ];
+  final List<Task> _tasks = [];
+
+  List<Task> get getTasks {
+    return _tasks;
+  }
 
   void _addTask(String task, String hour) {
-    Task newTask =
-        Task(id: _tasks[_tasks.length - 1].id + 1, name: task, hour: hour);
+    Task newTask = Task(
+        id: _tasks.length == 0 ? 1 : _tasks[_tasks.length - 1].id + 1,
+        name: task,
+        hour: hour);
+
     setState(() {
       _tasks.add(newTask);
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  void _removeTask(int id) {
+    setState(() {
+      _tasks.removeWhere((element) => element.id == id);
     });
   }
 
@@ -56,24 +68,47 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('To do List'),
-        backgroundColor: Color.fromARGB(255, 187, 19, 7),
+        backgroundColor: Colors.orange,
       ),
-      body: SizedBox(
-        height: 300,
-        child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (ctx, index) {
-            final tr = _tasks[index];
-            return TaskList(_tasks);
-          },
-        ),
-      ),
+      body: _tasks.isEmpty
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.orange,
+                    ),
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "You don't have tasks to do",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : SizedBox(
+              height: 430,
+              child: ListView.builder(
+                itemCount: 1,
+                itemBuilder: (ctx, index) {
+                  final tr = _tasks[index];
+                  return TaskList(_tasks, _removeTask);
+                },
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _openForm(context),
-        backgroundColor: Color.fromARGB(255, 187, 19, 7),
+        backgroundColor: Colors.red,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

@@ -3,20 +3,15 @@ import 'package:flutter/material.dart';
 
 class TaskList extends StatefulWidget {
   final List<Task> tasks;
+  final void Function(int) onRemove;
 
-  const TaskList(this.tasks);
+  const TaskList(this.tasks, this.onRemove);
 
   @override
   State<TaskList> createState() => _TaskListState();
 }
 
 class _TaskListState extends State<TaskList> {
-  void removeTask(List taskList, Task task) {
-    setState(() {
-      taskList.removeAt(task.id - 1);
-    });
-  }
-
   List<Widget> taskToCard() {
     List<Widget> taskList = [];
 
@@ -61,10 +56,10 @@ class _TaskListState extends State<TaskList> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                          onPressed: () => removeTask(taskList, task),
+                          onPressed: () => widget.onRemove(task.id),
                           child: Text('Done'),
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 239, 31, 16),
+                            primary: Colors.orange,
                           ),
                         ),
                       ),

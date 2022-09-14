@@ -43,7 +43,8 @@ class _TaskFormState extends State<TaskForm> {
                 onPressed: _submitForm,
                 child: Text('New task'),
                 style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 239, 31, 16)),
+                  primary: Colors.orange,
+                ),
               ),
             )
           ],
